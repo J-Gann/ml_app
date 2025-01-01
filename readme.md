@@ -17,8 +17,8 @@
     - pipelines usable with onnx models: see [list of compatible models](https://huggingface.co/models?library=transformers.js)
     - Utilizes [onnx-web-runtime](https://huggingface.co/docs/transformers.js/en/api/backends/onnx) for inference. Utilization of [WebGPU](https://huggingface.co/docs/transformers.js/en/guides/webgpu) is possible.
     - it is possible to use [custom onnx models](https://huggingface.co/docs/transformers.js/en/custom_usage) with pipelines
-        - [example of a model HF model compatible with transformerjs](https://huggingface.co/Xenova/donut-base-finetuned-cord-v2)
-        - [script](https://github.com/huggingface/transformers.js/blob/main/scripts/convert.py) for converting a HF model to onnx
+        - [example of a HF model compatible with transformerjs](https://huggingface.co/Xenova/donut-base-finetuned-cord-v2)
+        - [script](https://github.com/huggingface/transformers.js/blob/main/scripts/convert.py) for converting a HF model to onnx (**to be tested**)
 
 - Capacitor
     - enables to package the webapp into a native app (android / ios)
@@ -27,7 +27,8 @@
     - enables to quickly build a webapp (could be any other framework)
 
 ## Integration with Native App
-- Transformerjs should work with flutter: https://pub.dev/packages/flutter_js and javascript bundling (to contain all dependencies)
+- Transformerjs should work with flutter: https://pub.dev/packages/flutter_js and javascript bundling (to contain all dependencies) (**to be tested**)
+
 
 
 ## Comments
