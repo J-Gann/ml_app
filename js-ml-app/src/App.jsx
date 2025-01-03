@@ -48,12 +48,6 @@ function App() {
       allowEditing: false,
       resultType: CameraResultType.DataUrl
     });
-    
-    // image.webPath will contain a path that can be set as an image src.
-    // You can access the original file using image.path, which can be
-    // passed to the Filesystem API to read the raw data of the image,
-    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    //var imageUrl = image.webPath;
 
     setImage(image.dataUrl);
   };
@@ -68,7 +62,7 @@ function App() {
         )}
         <img src={image} style={{ width: '100%', maxWidth: '400px', height: 'auto', margin: '0 auto' }}/>
         <button onClick={takePicture}>Take Picture</button>
-        <button onClick={translateImage}>Answer Question</button>
+        <button disabled={pipe == undefined} onClick={translateImage}>Answer Question</button>
         <p style={{ border: '1px solid black', padding: '10px', borderRadius: '5px', minHeight: '100px' }}>{output}</p>
       </div>
     </>
