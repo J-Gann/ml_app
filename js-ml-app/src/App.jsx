@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { pipeline } from '@huggingface/transformers';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 
 let pipe;
@@ -39,6 +40,21 @@ function App() {
     }
   }
 
+  const takePicture = async () => {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl
+    });
+    
+    // image.webPath will contain a path that can be set as an image src.
+    // You can access the original file using image.path, which can be
+    // passed to the Filesystem API to read the raw data of the image,
+    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+    //var imageUrl = image.webPath;
+
+    setImage(image.dataUrl);
+  };
 
   return (
     <>
@@ -50,6 +66,7 @@ function App() {
         )}
         <img src={image} style={{ width: '200px', height: '200px' }}/>
         <input type="file" accept="image/*" onChange={handleImageChange} />
+        <button onClick={takePicture}>Take Picture</button>
         <button onClick={translateImage}>Answer Question</button>
         <p>{output}</p>
       </div>
