@@ -33,12 +33,14 @@ function App() {
     setOutput(top_result);
   }
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
-    }
-  }
+  // File input using React
+  // <input type="file" accept="image/*" onChange={handleImageChange} />
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setImage(URL.createObjectURL(file));
+  //   }
+  // }
 
   const takePicture = async () => {
     const image = await Camera.getPhoto({
@@ -64,11 +66,10 @@ function App() {
         {modelLoadString === "Loading Model..." && (
           <progress value={progress} max={100} />
         )}
-        <img src={image} style={{ width: '200px', height: '200px' }}/>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <img src={image} style={{ width: '100%', maxWidth: '400px', height: 'auto', margin: '0 auto' }}/>
         <button onClick={takePicture}>Take Picture</button>
         <button onClick={translateImage}>Answer Question</button>
-        <p>{output}</p>
+        <p style={{ border: '1px solid black', padding: '10px', borderRadius: '5px', minHeight: '100px' }}>{output}</p>
       </div>
     </>
   )
