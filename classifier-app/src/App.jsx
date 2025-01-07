@@ -6,6 +6,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import * as utils from './utils.js'
 import vocab from './assets/vocab.json'
 import modelPath from './assets/model.onnx'
+import test_image from './assets/test_image.png'
 
 const LABELS = {
   "certificate_of_enrollment": 0,
@@ -17,8 +18,8 @@ const REV_LABELS = {
 }
 
 function App() {
-
-  const [image, setImage] = useState(null)
+  
+  const [image, setImage] = useState(test_image)
   const [probImma, setProbImma] = useState("---")
   const [probZert, setProbZert] = useState("---")
 
@@ -38,10 +39,6 @@ function App() {
 
   }
 
-  async function process_image() {
-
-    console.log(bow)
-  }
 
   const takePicture = async () => {
     const image = await Camera.getPhoto({
