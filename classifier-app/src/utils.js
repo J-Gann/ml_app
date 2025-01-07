@@ -17,10 +17,10 @@ function bow_from_tokens(tokens, vocab) {
     let bow = Array(vocab.size).fill(0);
 
     tokens.forEach((token) => {
-        if (token in vocab) {
-            bow[vocab[token]] += 1
+        if (vocab.has(token)) {
+            bow[vocab.get(token)] += 1
         } else {
-            bow[vocab["<|UNK|>"]] += 1
+            bow[vocab.get("<|UNK|>")] += 1
         }
     })
     return bow
