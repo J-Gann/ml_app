@@ -18,5 +18,5 @@ export default defineConfig({
   assetsInclude: ["**/*.onnx"],
   optimizeDeps: {
     exclude: ['onnxruntime-web']
-  },
+  }
 })

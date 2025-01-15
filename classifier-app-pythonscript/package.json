@@ -1,0 +1,41 @@
+{
+  "name": "classifier-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/camera": "^6.1.2",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0",
+    "@capacitor/filesystem": "^6.0.2",
+    "@pyscript/core": "^0.6.24",
+    "onnxruntime-web": "^1.20.1",
+    "pyodide": "^0.27.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "stemmer": "^2.0.1",
+    "tesseract.js": "^5.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "inherits": "^2.0.4",
+    "vite": "^6.0.5",
+    "vite-plugin-commonjs": "^0.10.4",
+    "vite-plugin-static-copy": "^2.2.0"
+  }
+}

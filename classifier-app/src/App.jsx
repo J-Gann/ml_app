@@ -8,14 +8,6 @@ import vocab from './assets/vocab.json'
 import modelPath from './assets/model.onnx'
 import test_image from './assets/test_image.png'
 
-const LABELS = {
-  "certificate_of_enrollment": 0,
-  "certificate_of_achievement": 1
-}
-const REV_LABELS = {
-  0:  "certificate_of_enrollment",
-  1:  "certificate_of_achievement"
-}
 
 function App() {
   
@@ -41,13 +33,15 @@ function App() {
 
 
   const takePicture = async () => {
+
     const image = await Camera.getPhoto({
-      quality: 90,
+      quality: 100,
       allowEditing: false,
       resultType: CameraResultType.DataUrl
     });
 
     setImage(image.dataUrl);
+ 
   };
 
   return (

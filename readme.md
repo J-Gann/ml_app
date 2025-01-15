@@ -9,6 +9,7 @@
 
 1. Follow the [Tutorial](https://huggingface.co/docs/transformers.js/en/tutorials/react) for setting up a React project with Transformers.js
 2. Follow the [Tutorial](https://capacitorjs.com/solution/react) for setting up Capacitor with React
+3. Follow the [Tutorial](https://docs.pyscript.net/2024.11.1/user-guide/offline/#local-pyodide) for setting up PyScript
 
 ## Details
 

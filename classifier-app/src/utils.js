@@ -1,6 +1,7 @@
 import { createWorker } from 'tesseract.js';
 import {stemmer} from 'stemmer'
 
+let tesseract_worker;
 
 function tokenize_text(text) {
     const cleanedText = text
@@ -26,10 +27,18 @@ function bow_from_tokens(tokens, vocab) {
     return bow
 }
 
+async function get_tesseract_worker() {
+    if (tesseract_worker) {
+        return tesseract_worker;
+    }
+    tesseract_worker = await createWorker('deu');
+    return tesseract_worker;
+}
+
 async function extract_text_from_png(png_path) {
     try {
-        const worker = await createWorker('deu');
-        const { data: { text } } = await worker.recognize(png_path, 'deu');
+        const tesseract_worker = await get_tesseract_worker();
+        const { data: { text } } = await tesseract_worker.recognize(png_path, 'deu');
         return text;
     } catch (error) {
         throw new Error(`Failed to extract German text: ${error.message}`);
