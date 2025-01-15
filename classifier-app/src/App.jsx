@@ -15,19 +15,16 @@ function App() {
   const [image, setImage] = useState(test_image)
   const [isCropped, setIsCropped] = useState(false)
   const scanner = new jscanify();
-
+  let full_image = test_image
 
   async function run_model() {
    
     setProbImma("---")
     setProbZert("---")
 
-
-
-
     
     const vocab_map = new Map(vocab)
-    const png_text = await utils.extract_text_from_png(image)
+    const png_text = await utils.extract_text_from_png(full_image)
     const sample_tokens = utils.tokenize_text(png_text)
     const bow = utils.bow_from_tokens(sample_tokens, vocab_map)
 
@@ -73,7 +70,7 @@ function App() {
     
     // Set the cropped image as the new image
     setImage(croppedImage.toDataURL());
-    
+    full_image = croppedImage.toDataURL()
     // Cleanup OpenCV Mat objects
     srcMat.delete();
     croppedImage.delete();
