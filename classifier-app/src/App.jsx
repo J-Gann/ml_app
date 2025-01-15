@@ -23,7 +23,7 @@ function App() {
   const [isCropped, setIsCropped] = useState(false)
 
   const filterCvParams = {
-    blur: false,                         // Applies a Gaussian blur to the image.
+    blur: true,                         // Applies a Gaussian blur to the image.
     //th: true,                            // Applies adaptive thresholding to the image.
     //thMode: cv.ADAPTIVE_THRESH_MEAN_C,   // Determines the method used for adaptive thresholding.
     //thMeanCorrection: 15,                // Adjusts the mean for thresholding.
@@ -77,7 +77,7 @@ function App() {
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <div style={{ maxWidth: '400px', margin: '0 auto', width: '100%' }}>
+        <div style={{ maxWidth: 'x', margin: '0 auto', width: '100%' }}>
           <Cropper
             ref={cropperRef}
             image={image}
