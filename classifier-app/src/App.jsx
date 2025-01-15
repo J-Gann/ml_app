@@ -1,6 +1,6 @@
 import './App.css'
 
-import { useState, useCallback, useRef } from 'react'
+import { useState } from 'react'
 import ort from "onnxruntime-web";
 import { Camera, CameraResultType } from '@capacitor/camera';
 import * as utils from './utils.js'
@@ -13,15 +13,13 @@ function App() {
   const [probImma, setProbImma] = useState("---")
   const [probZert, setProbZert] = useState("---")
   const [image, setImage] = useState(test_image)
-  const [isCropped, setIsCropped] = useState(false)
+  const [full_image, setFullImage] = useState(test_image) // stores the full sized image (image seems to be scaled down by react on mobile)
   const scanner = new jscanify();
-  let full_image = test_image
 
   async function run_model() {
    
     setProbImma("---")
     setProbZert("---")
-
     
     const vocab_map = new Map(vocab)
     const png_text = await utils.extract_text_from_png(full_image)
@@ -39,26 +37,15 @@ function App() {
   }
 
   const handleCrop = async () => {
-    // Create a canvas to manipulate the original image
+    // create on the fly canvas to use full sized image
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    
-    // Load the full-resolution image
     const img = new Image();
-    img.src = image; // image is the full dataUrl from Camera.getPhoto
-    
-    await new Promise((resolve) => {
-      img.onload = resolve;
-    });
-    
-    // Set canvas dimensions to the original image dimensions
+    img.src = full_image;
     canvas.width = img.width;
     canvas.height = img.height;
-    
-    // Draw the image at full resolution
     ctx.drawImage(img, 0, 0, img.width, img.height);
     
-    // Use OpenCV.js for processing at full resolution
     const srcMat = cv.imread(canvas);
     const contour = scanner.findPaperContour(srcMat);
     const cornerPoints = scanner.getCornerPoints(contour);
@@ -68,12 +55,42 @@ function App() {
   
     const croppedImage = scanner.extractPaper(canvas, width, height, cornerPoints);
     
-    // Set the cropped image as the new image
-    setImage(croppedImage.toDataURL());
-    full_image = croppedImage.toDataURL()
-    // Cleanup OpenCV Mat objects
+    // Convert to black and white
+    const bwCanvas = document.createElement('canvas');
+    const bwCtx = bwCanvas.getContext('2d');
+    bwCanvas.width = croppedImage.width;
+    bwCanvas.height = croppedImage.height;
+    
+    // Draw the cropped image onto the new canvas
+    bwCtx.drawImage(croppedImage, 0, 0);
+    
+    //const mat = cv.imread(bwCanvas);
+    //const blurred = new cv.Mat();
+    //// Adjust kernel size (must be odd numbers) and sigma to control blur strength
+    //cv.GaussianBlur(mat, blurred, new cv.Size(1, 1), 1, 1);
+    //cv.imshow(bwCanvas, blurred);
+    //
+//
+    //// Get image data and convert to grayscale
+    //const imageData = bwCtx.getImageData(0, 0, bwCanvas.width, bwCanvas.height);
+    //const data = imageData.data;
+    //
+    //for (let i = 0; i < data.length; i += 4) {
+    //  const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+    //  // Apply threshold to make it black and white (not grayscale)
+    //  const threshold = 128;
+    //  const value = avg > threshold ? 255 : 0;
+    //  data[i] = value;     // red
+    //  data[i + 1] = value; // green
+    //  data[i + 2] = value; // blue
+    //}
+    //
+    //bwCtx.putImageData(imageData, 0, 0);
+    
+    setImage(bwCanvas.toDataURL());
+    setFullImage(bwCanvas.toDataURL());
+
     srcMat.delete();
-    croppedImage.delete();
   };
 
 
@@ -86,6 +103,7 @@ function App() {
     });
 
     setImage(image.dataUrl);
+    setFullImage(image.dataUrl)
   };
 
   return (
@@ -96,7 +114,7 @@ function App() {
 
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
           <button onClick={takePicture}>Take Picture</button>
-          <button onClick={handleCrop} disabled={isCropped}>Crop Image</button>
+          <button onClick={handleCrop}>Crop Image</button>
           <button onClick={run_model}>Run Model</button>
         </div>
         
