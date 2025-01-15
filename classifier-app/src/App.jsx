@@ -7,30 +7,14 @@ import * as utils from './utils.js'
 import vocab from './assets/vocab.json'
 import modelPath from './assets/model.onnx'
 import test_image from './assets/test_image.png'
-import Cropper from 'react-document-crop'
-
 
 function App() {
   
   const [probImma, setProbImma] = useState("---")
   const [probZert, setProbZert] = useState("---")
-  const cropperRef = useRef()
-  const [cropState, setCropState] = useState()
   const [image, setImage] = useState(test_image)
-  const [cropperKey, setCropperKey] = useState(0)
-  const onDragStop = useCallback((s) => setCropState(s), [])
-  const onChange = useCallback((s) => setCropState(s), [])
   const [isCropped, setIsCropped] = useState(false)
-
-  const filterCvParams = {
-    blur: true,                         // Applies a Gaussian blur to the image.
-    //th: true,                            // Applies adaptive thresholding to the image.
-    //thMode: cv.ADAPTIVE_THRESH_MEAN_C,   // Determines the method used for adaptive thresholding.
-    //thMeanCorrection: 15,                // Adjusts the mean for thresholding.
-    //thBlockSize: 25,                     // Determines the size of the block for adaptive thresholding.
-    //thMax: 255,                          // Sets the maximum value for thresholding.
-    grayScale: true                      // Converts the image to grayscale.
-  }
+  const scanner = new jscanify();
 
 
   async function run_model() {
@@ -38,6 +22,10 @@ function App() {
     setProbImma("---")
     setProbZert("---")
 
+
+
+
+    
     const vocab_map = new Map(vocab)
     const png_text = await utils.extract_text_from_png(image)
     const sample_tokens = utils.tokenize_text(png_text)
@@ -54,10 +42,42 @@ function App() {
   }
 
   const handleCrop = async () => {
-    const croppedImage = await cropperRef.current.done({preview: true, filterCvParams})
-    setImage(croppedImage)
-    setIsCropped(true)
-  }
+    // Create a canvas to manipulate the original image
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Load the full-resolution image
+    const img = new Image();
+    img.src = image; // image is the full dataUrl from Camera.getPhoto
+    
+    await new Promise((resolve) => {
+      img.onload = resolve;
+    });
+    
+    // Set canvas dimensions to the original image dimensions
+    canvas.width = img.width;
+    canvas.height = img.height;
+    
+    // Draw the image at full resolution
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    
+    // Use OpenCV.js for processing at full resolution
+    const srcMat = cv.imread(canvas);
+    const contour = scanner.findPaperContour(srcMat);
+    const cornerPoints = scanner.getCornerPoints(contour);
+  
+    const height = cornerPoints.bottomLeftCorner.y - cornerPoints.topLeftCorner.y;
+    const width = cornerPoints.topRightCorner.x - cornerPoints.topLeftCorner.x;
+  
+    const croppedImage = scanner.extractPaper(canvas, width, height, cornerPoints);
+    
+    // Set the cropped image as the new image
+    setImage(croppedImage.toDataURL());
+    
+    // Cleanup OpenCV Mat objects
+    srcMat.delete();
+    croppedImage.delete();
+  };
 
 
   const takePicture = async () => {
@@ -68,24 +88,14 @@ function App() {
       resultType: CameraResultType.DataUrl
     });
 
-    setCropperKey(prev => prev + 1)
-
     setImage(image.dataUrl);
-    setIsCropped(false)
   };
 
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', margin: '0 auto', width: '100%'}}>
 
-        <Cropper
-          ref={cropperRef}
-          image={image}
-          onChange={onChange}
-          onDragStop={onDragStop}
-          key={cropperKey}
-          style={{ width: '100%', maxWidth: '100%', height: 'auto' }}
-        />
+        <img id="image" src={image} />
 
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
           <button onClick={takePicture}>Take Picture</button>

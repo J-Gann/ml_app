@@ -15,10 +15,8 @@
     "@capacitor/cli": "^6.2.0",
     "@capacitor/core": "^6.2.0",
     "@capacitor/filesystem": "^6.0.2",
-    "@ionic/pwa-elements": "^3.3.0",
     "onnxruntime-web": "^1.20.1",
     "react": "^18.3.1",
-    "react-document-crop": "github:subho57/react-document-crop",
     "react-dom": "^18.3.1",
     "stemmer": "^2.0.1",
     "tesseract.js": "^5.1.1"
