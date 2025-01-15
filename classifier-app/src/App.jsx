@@ -76,27 +76,30 @@ function App() {
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <div style={{ maxWidth: 'x', margin: '0 auto', width: '100%' }}>
-          <Cropper
-            ref={cropperRef}
-            image={image}
-            onChange={onChange}
-            onDragStop={onDragStop}
-            key={cropperKey}
-          />
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', margin: '0 auto', width: '100%'}}>
+
+        <Cropper
+          ref={cropperRef}
+          image={image}
+          onChange={onChange}
+          onDragStop={onDragStop}
+          key={cropperKey}
+          style={{ width: '100%', maxWidth: '100%', height: 'auto' }}
+        />
+
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
           <button onClick={takePicture}>Take Picture</button>
           <button onClick={handleCrop} disabled={isCropped}>Crop Image</button>
           <button onClick={run_model}>Run Model</button>
         </div>
+        
         <div style={{ border: '1px solid black', padding: '10px', borderRadius: '5px', minHeight: '100px' }}>
           <p>Wahrscheinlichkeit einer Immatrikulation:</p>
           <p>{probImma}</p>
           <p>Wahrscheinlichkeit eines Zertifikats:</p>
           <p>{probZert}</p>
         </div>
+
       </div>
     </>
   )
