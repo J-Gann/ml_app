@@ -14,6 +14,7 @@ function App() {
   const [probZert, setProbZert] = useState("---")
   const [image, setImage] = useState(test_image)
   const [full_image, setFullImage] = useState(test_image) // stores the full sized image (image seems to be scaled down by react on mobile)
+  const [ocrText, setOcrText] = useState("") // Add new state for OCR text
   const scanner = new jscanify();
 
   async function run_model() {
@@ -23,6 +24,7 @@ function App() {
     
     const vocab_map = new Map(vocab)
     const png_text = await utils.extract_text_from_png(full_image)
+    setOcrText(png_text) // Store the extracted text
     const sample_tokens = utils.tokenize_text(png_text)
     const bow = utils.bow_from_tokens(sample_tokens, vocab_map)
 
@@ -123,6 +125,13 @@ function App() {
           <p>{probImma}</p>
           <p>Wahrscheinlichkeit eines Zertifikats:</p>
           <p>{probZert}</p>
+        </div>
+
+        <div style={{ border: '1px solid black', padding: '10px', borderRadius: '5px', minHeight: '100px' }}>
+          <p>Extracted Text:</p>
+          <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', margin: 0, textAlign: 'left' }}>
+            {ocrText}
+          </pre>
         </div>
 
       </div>
