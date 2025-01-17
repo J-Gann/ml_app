@@ -1,6 +1,6 @@
 # j&s Demo App: Document Classifier
 
-This is a demo app for the j&s project. It is a document classifier that uses a pre-trained model to classify documents into different categories.
+This is a demo app for a document classifier that uses a pre-trained model to classify documents into different categories.
 
 <img src="./images/screenshot.jpeg" width="300">
 
