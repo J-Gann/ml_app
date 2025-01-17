@@ -1,0 +1,6 @@
+{
+  "appId": "com.jssoft.pyodideapp",
+  "appName": "pyodide-app",
+  "webDir": "dist"
+}
+
