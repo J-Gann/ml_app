@@ -4,7 +4,7 @@
 
 This app demonstrates how to build a cross-platform document classifier app using React, Capacitor and ONNX.
 
-![App Screenshot](./classifier-app/images/screenshot.jpeg)
+<img src="./classifier-app/images/screenshot.jpeg" width="300">
 
 - [Readme](./classifier-app/README.md)
 - [Source Code](./classifier-app)

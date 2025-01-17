@@ -2,7 +2,7 @@
 
 This is a demo app for the j&s project. It is a document classifier that uses a pre-trained model to classify documents into different categories.
 
-![App Screenshot](./images/screenshot.jpeg)
+<img src="./images/screenshot.jpeg" width="300">
 
 Currently, the app has the following features:
 - Camera: Take a picture of a document
