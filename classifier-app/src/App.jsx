@@ -21,6 +21,8 @@ function App() {
   const [image, setImage] = useState(test_imma)
   const [full_image, setFullImage] = useState(test_imma) // stores the full sized image (image seems to be scaled down by react on mobile)
   const [ocrText, setOcrText] = useState("") // Add new state for OCR text
+  const [executionTime, setExecutionTime] = useState("---")
+
   const scanner = new jscanify();
 
   defineCustomElements(window);
@@ -30,7 +32,10 @@ function App() {
     setProbImma("---")
     setProbZert("---")
     setProbInvoice("---")
+    setExecutionTime("---")
     setOcrText("")
+
+    const start = performance.now();
 
     const data_processor = DataProcessor.from_pretrained(vocab)
     const model = await ONNXModel.from_pretrained(modelPath)
@@ -38,6 +43,9 @@ function App() {
     const [bow, text] = await data_processor.bow_from_sample(full_image)
     setOcrText(text)
     const probs = await model.get_probs(bow)
+
+    const end = performance.now();
+    setExecutionTime(end - start)
 
     setProbImma(probs[0])
     setProbZert(probs[1])
@@ -160,12 +168,15 @@ function App() {
           <p>Class Probabilities:</p>
           <div style={{ display: 'grid', gridTemplateColumns: '150px auto', justifyContent: 'center' }}>
             <p style={{ margin: 0, textAlign: 'left' }}>Immatriculation:</p>
-            <p style={{ margin: 0, textAlign: 'left' }}>{typeof probImma === 'number' ? probImma.toFixed(3) : probImma}</p>
+            <p style={{ margin: 0, textAlign: 'left' }}>{typeof probImma === 'number' ? probImma.toFixed(3) * 100 : probImma}%</p>
             <p style={{ margin: 0, textAlign: 'left' }}>Certificate:</p>
-            <p style={{ margin: 0, textAlign: 'left' }}>{typeof probZert === 'number' ? probZert.toFixed(3) : probZert}</p>
+            <p style={{ margin: 0, textAlign: 'left' }}>{typeof probZert === 'number' ? probZert.toFixed(3) * 100 : probZert}%</p>
             <p style={{ margin: 0, textAlign: 'left' }}>Invoice:</p>
-            <p style={{ margin: 0, textAlign: 'left' }}>{typeof probInvoice === 'number' ? probInvoice.toFixed(3) : probInvoice}</p>
+            <p style={{ margin: 0, textAlign: 'left' }}>{typeof probInvoice === 'number' ? probInvoice.toFixed(3) * 100 : probInvoice}%</p>
           </div>
+          <br />
+          <p style={{ margin: 0, textAlign: 'center', fontSize: '15px', color: '#888' }}>Execution Time: {typeof executionTime === 'number' ? (executionTime / 1000).toFixed(2) : executionTime} s</p>
+
         </div>
 
 
