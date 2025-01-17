@@ -13,5 +13,5 @@ This app demonstrates how to build a cross-platform document classifier app usin
 
 This app demonstrates how to build a cross-platform document classifier app using PyScript.
 
-- [Readme](./pyscript-demo/README.md)
-- [Source Code](./pyscript-demo)
+- [Readme](./pyodide-app/README.md)
+- [Source Code](./pyodide-app)
