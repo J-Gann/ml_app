@@ -38,6 +38,7 @@ print(array)
   }
 
   async function run_python() {
+    setOutput("")
     await pyodide.loadPackage("micropip", {checkIntegrity: false});
     for (const pipPackage of pyodidePackages) {
       await pyodide.loadPackage(pipPackage);
